@@ -42,24 +42,12 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-//    timerMatchCheck= [NSTimer scheduledTimerWithTimeInterval:5.0
-//                                                       target:self
-//                                                     selector:@selector(getUsers)
-//                                                     userInfo:nil
-//                                                      repeats:YES];
-    
     [CSS_Class APP_Orangebutton:_sendMsgBtn];
     [CSS_Class APP_Orangebutton:_swipingBtn];
     [CSS_Class APP_Orangebutton:_sendMsgBtnSecond];
     [CSS_Class APP_Orangebutton:_swipingBtnSecond];
     
     [_buttonView setHidden:YES];
-        
-    //[self getUsers];
-    
-//    [self startAnimating];
-    
-//    [self commonMethod];
     
     _startIndex = 0;
     _slideCount = 0;
@@ -99,6 +87,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
   
+    if([[CommenMethods getUserDefaultsKey:@"unmatched"] isEqualToString: @"1"]){
+        
+        [CommenMethods setUserDefaultsObject:@"0" key:@"unmatched"];
+        [self stopAnimating];
+    }
+
     if(!launched){
         launched = YES;
         
@@ -109,7 +103,6 @@
                                                     selector:@selector(getUsers)
                                                     userInfo:nil
                                                      repeats:YES];
-    //[self startAnimating];
     }
 }
 

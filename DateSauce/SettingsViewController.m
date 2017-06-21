@@ -75,7 +75,7 @@
     
     locationSelected = YES;
     
-    locationsArray = [[NSMutableArray alloc]initWithObjects:@"Current Location", nil];
+//    locationsArray = [[NSMutableArray alloc]initWithObjects:@"Current Location", nil];
 }
 
 
@@ -147,7 +147,7 @@
                 NSString *identi=[user valueForKey:@"id"];
                 NSString *token=[user valueForKey:@"token"];
                 
-                NSDictionary *locDict = [locationDetailsArray objectAtIndex:selectedIndex-1];
+                NSDictionary *locDict = [locationDetailsArray objectAtIndex:indexPath.row-1];
                 
                 NSString *locId = [locDict valueForKey:@"id"];
                 
@@ -159,8 +159,7 @@
                     [appDelegate onEndLoader];
                     if([[response valueForKey:@"success"]boolValue] == 1)
                     {
-                        [locationsArray removeObjectAtIndex:selectedIndex];
-                        [_swipingInTableView reloadData];
+                        [self getPreferences];
                     }
                     else
                     {
@@ -423,14 +422,15 @@ didFailAutocompleteWithError:(NSError *)error {
                     women = @"1";
                 }
                 NSArray *locArray = [preferences objectForKey:@"locations"];
+                locationDetailsArray = [[NSMutableArray alloc]init];
+                locationsArray = [[NSMutableArray alloc]init];
+                [locationsArray addObject:@"Current Location"];
                 
                 if([locArray count]){
                     
-                     int i =1;
-                    
-                     locationDetailsArray = [[NSMutableArray alloc]initWithArray:locArray];
-                    
-                     locationSelected = NO;
+                    int i =1;
+                    locationDetailsArray = [preferences valueForKey:@"locations"];
+                    locationSelected = NO;
                 
                 for(NSDictionary *dict in locationDetailsArray){
                 
@@ -449,9 +449,9 @@ didFailAutocompleteWithError:(NSError *)error {
                     }
                     i++;
                 }
-                
-                [_swipingInTableView reloadData];
                 }
+                [_swipingInTableView reloadData];
+
             }
             else
             {
@@ -589,14 +589,9 @@ didFailAutocompleteWithError:(NSError *)error {
         NSString* longitude;
         
         NSString *address = [NSString stringWithFormat:@"%@",[user valueForKey:@"address"]];
-        if(selectedIndex == 0){
-            latitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.latitude];
-            longitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.longitude];
-        }
-        else{
-            latitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]];
-            longitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLong"]];
-        }
+        
+        latitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]];
+        longitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLong"]];
         
         NSDictionary * params=@{@"id":identi,@"token":token,@"latitude":latitude,@"longitude":longitude,@"address":address};
         
@@ -606,7 +601,7 @@ didFailAutocompleteWithError:(NSError *)error {
             [appDelegate onEndLoader];
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
-                
+                [self getPreferences];
             }
             else
             {

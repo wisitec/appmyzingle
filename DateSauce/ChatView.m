@@ -1274,10 +1274,8 @@
             [appDelegate onEndLoader];
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
-                ViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
-                controller.IsFrom = @"chat";
-                [self.navigationController pushViewController:controller animated:YES];
-                //[self.navigationController popViewControllerAnimated:YES];
+                [CommenMethods setUserDefaultsObject:@"1" key:@"unmatched"];
+                [self.navigationController popViewControllerAnimated:YES];
             }
             else
             {
