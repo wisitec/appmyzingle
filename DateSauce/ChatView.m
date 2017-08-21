@@ -809,10 +809,9 @@
     appDelegate.strIsFrmChat=@"yes";
     [self keyboardWillHide:nil];
     
+    [CommenMethods setUserDefaultsObject:@"1" key:@"unmatched"];
+    
     [self.navigationController popViewControllerAnimated:YES];
-//    ViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ViewController"];
-//    controller.IsFrom = @"chat";
-//    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)btnReportUnmatchAction:(id)sender {

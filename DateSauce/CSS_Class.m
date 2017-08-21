@@ -156,12 +156,12 @@
     [textField.rightView setBounds:textRect];
     
     UIView *vwContainer = [[UIView alloc] init];
-    [vwContainer setFrame:CGRectMake(10.0f, 0.0f, 60.0f, 45.0f)];
+    [vwContainer setFrame:CGRectMake(10.0f, 0.0f, 60.0f, 40.0f)];
     [vwContainer setBackgroundColor:[UIColor clearColor]];
     
     UIImageView *iconImage = [[UIImageView alloc] init];
     [iconImage setImage:[UIImage imageNamed:icon]];
-    [iconImage setFrame:CGRectMake(10.f, 0.0f, 45.0f, 45.0f)];
+    [iconImage setFrame:CGRectMake(15.f, 10.0f, 20.0f, 20.0f)];
     [iconImage setBackgroundColor:[UIColor clearColor]];
     
     [vwContainer addSubview:iconImage];

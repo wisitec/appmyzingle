@@ -166,7 +166,7 @@
     if (block) {
         dataBlock=[block copy];
     }
-    NSData *imageToUpload = UIImagePNGRepresentation(image);//(uploadedImgView.image);
+    NSData *imageToUpload = UIImageJPEGRepresentation(image,0.5);//(uploadedImgView.image);
     if (imageToUpload)
     {
         NSString *url=[NSString stringWithFormat:@"%@%@",SERVICE_URL,path] ;//stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -191,10 +191,8 @@
         }
         
         manager.requestSerializer.timeoutInterval=600;
-        
-        
         [manager POST:url parameters:dictParam constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            [formData appendPartWithFileData:imageToUpload name:PICTURE fileName:@"picture" mimeType:@"image/png"];
+            [formData appendPartWithFileData:imageToUpload name:PICTURE fileName:@"picture" mimeType:@"file"];
             
         } progress:^(NSProgress * _Nonnull uploadProgress) {
             

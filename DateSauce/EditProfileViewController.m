@@ -308,7 +308,7 @@
             [appDelegate onEndLoader];
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
-                _userNameTxtFld.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"username"]];
+                _userNameTxtFld.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"name"]];
                 _workTxtField.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"work"]];
                 _schoolTxtField.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"school"]];
                 _aboutYouTextView.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"description"]];
@@ -516,7 +516,7 @@
             description = @"";
         }
         
-        NSDictionary * params=@{@"id":identi,@"token":token,@"username":_userNameTxtFld.text,@"gender":gender,@"email":email,@"device_token":device_token,@"description":description,@"work":_workTxtField.text,@"school":_schoolTxtField.text};
+        NSDictionary * params=@{@"id":identi,@"token":token,@"name":_userNameTxtFld.text,@"gender":gender,@"email":email,@"device_token":device_token,@"description":description,@"work":_workTxtField.text,@"school":_schoolTxtField.text};
         
         [appDelegate onStartLoader];
         AFNHelper *afn=[[AFNHelper alloc]initWithRequestMethod:POST_METHOD];
@@ -527,7 +527,7 @@
                 NSArray *otherImages = [[response objectForKey:@"user"]objectForKey:@"images"];
                 
                 NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
-                [user setValue:[[response valueForKey:@"user"] valueForKey:@"username"] forKey:@"name"];
+                [user setValue:[[response valueForKey:@"user"] valueForKey:@"name"] forKey:@"name"];
                 [user setValue:[[response valueForKey:@"user"] valueForKey:@"gender"] forKey:@"gender"];
                 [user setValue:[[response valueForKey:@"user"] valueForKey:@"email"] forKey:@"email"];
                 [user setValue:[otherImages objectAtIndex:0] forKey:@"picture"];

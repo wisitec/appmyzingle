@@ -664,6 +664,22 @@
                 }
                 else {
                     
+                    _startIndex = 0;
+                    _slideCount = 0;
+                    
+                    
+                    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, self.view.frame.size.height - 150)];
+                    self.swipeableView.frame = swipeableView.frame;
+                    self.swipeableView = swipeableView;
+                    [self.view addSubview:self.swipeableView];
+                    
+                    // Required Data Source
+                    self.swipeableView.dataSource = self;
+                    
+                    // Optional Delegate
+                    self.swipeableView.delegate = self;
+        
+                    
                     [timerMatchCheck invalidate];
                     timerMatchCheck = nil;
                     
@@ -905,6 +921,24 @@
 
 - (IBAction)keepSwipingBtnAction:(id)sender {
     
+    if(self.count == 0)
+    {
+        //[self startAnimating];
+        [_buttonView setHidden:YES];
+        
+        UIImage *imgCL=[UIImage imageNamed:@"CloseDisa.png"];
+        [_unlikeBtn setBackgroundImage:imgCL forState:UIControlStateNormal];
+        
+        UIImage *imgLV=[UIImage imageNamed:@"HeartDisa.png"];
+        [_likeBtn setBackgroundImage:imgLV forState:UIControlStateNormal];
+        
+        UIImage *imgST=[UIImage imageNamed:@"StarDisa.png"];
+        [_superLikeBtn setBackgroundImage:imgST forState:UIControlStateNormal];
+        
+        UIImage *imgRE=[UIImage imageNamed:@"RefreshDisa.png"];
+        [_rewindBtn setBackgroundImage:imgRE forState:UIControlStateNormal];
+    }
+
     [UIView animateWithDuration:0.45 animations:^{
         
         _matched_shortscreenView.frame = CGRectMake(self.view.frame.size.width+100, self.view.frame.size.height+100, self.view.frame.size.width, self.view.frame.size.height);

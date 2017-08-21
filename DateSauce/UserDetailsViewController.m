@@ -114,7 +114,7 @@
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
 //                NSLog(@"user profile...%@",response);
-                _userNameLbl.text = [NSString stringWithFormat:@"%@, %@",[[response objectForKey:@"user"]valueForKey:@"username"],[[response objectForKey:@"user"]valueForKey:@"age"]];
+                _userNameLbl.text = [NSString stringWithFormat:@"%@, %@",[[response objectForKey:@"user"]valueForKey:@"name"],[[response objectForKey:@"user"]valueForKey:@"age"]];
                 _workLbl.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"work"]];
                 _schoolLbl.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"school"]];
                 

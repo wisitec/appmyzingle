@@ -271,6 +271,7 @@
 		03EA738E1EDED25F00555780 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		15E4BAADBBCE1242BDA81D2F /* Pods-DateSauce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DateSauce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce.debug.xcconfig"; sourceTree = "<group>"; };
 		1A5421252EC720B8F74FC1DB /* Pods-DateSauce.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DateSauce.release.xcconfig"; path = "Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce.release.xcconfig"; sourceTree = "<group>"; };
+		9361BF6A1F4AE19A00310821 /* DateSauce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DateSauce.entitlements; sourceTree = "<group>"; };
 		EBC02BDC3253B77FF377F10E /* Pods_DateSauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DateSauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -338,6 +339,7 @@
 		0300B26C1EDD78090018F38E /* DateSauce */ = {
 			isa = PBXGroup;
 			children = (
+				9361BF6A1F4AE19A00310821 /* DateSauce.entitlements */,
 				0300B2CE1EDD7CBA0018F38E /* Utilities */,
 				0300B2ED1EDD7FEB0018F38E /* View */,
 				0300B2EE1EDD7FF90018F38E /* Controllers */,
@@ -384,8 +386,8 @@
 				0300B2711EDD78090018F38E /* AppDelegate.m */,
 				0300B2BD1EDD7C820018F38E /* Utilities.h */,
 				0300B2BE1EDD7C820018F38E /* Utilities.m */,
-				0300B2A61EDD7C820018F38E /* Constants.m */,
 				0300B2A11EDD7C820018F38E /* Constants.h */,
+				0300B2A61EDD7C820018F38E /* Constants.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -858,8 +860,16 @@
 				TargetAttributes = {
 					0300B2691EDD78090018F38E = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = QLVQQ74552;
+						DevelopmentTeam = ZP3CU47U3H;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					0300B2821EDD78090018F38E = {
 						CreatedOnToolsVersion = 8.3.1;
@@ -1193,14 +1203,17 @@
 			baseConfigurationReference = 15E4BAADBBCE1242BDA81D2F /* Pods-DateSauce.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DateSauce/DateSauce.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QLVQQ74552;
+				DEVELOPMENT_TEAM = ZP3CU47U3H;
 				INFOPLIST_FILE = DateSauce/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.appoets.DateSauce;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.datesauce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1209,14 +1222,17 @@
 			baseConfigurationReference = 1A5421252EC720B8F74FC1DB /* Pods-DateSauce.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DateSauce/DateSauce.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QLVQQ74552;
+				DEVELOPMENT_TEAM = ZP3CU47U3H;
 				INFOPLIST_FILE = DateSauce/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.appoets.DateSauce;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.datesauce;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

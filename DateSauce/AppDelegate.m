@@ -11,6 +11,7 @@
 #import "ViewController.h"
 #import <SplunkMint/SplunkMint.h>
 #import <GooglePlaces/GooglePlaces.h>
+#import "Constants.h"
 
 #define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -41,14 +42,14 @@
     NSString*devType=@"ios";
     [[NSUserDefaults standardUserDefaults]setObject:devType forKey:@"device_type"];
     
-//    [GMSServices provideAPIKey:GMSMAP_KEY];
-    [GMSPlacesClient provideAPIKey:@"AIzaSyDyP9HF4pb4zG_YWBhwRNXEbNVyZhNjkAs"];
-//    [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:Stripe_KEY];
+    [GMSPlacesClient provideAPIKey:GMSMAP_KEY];
     
     [[Mint sharedInstance] disableNetworkMonitoring];
     [[Mint sharedInstance] initAndStartSessionWithAPIKey:@"439ec5be"];
     [Mint sharedInstance].applicationEnvironment = SPLAppEnvUserAcceptanceTesting;
     
+    application.applicationIconBadgeNumber = 0;
+
     BOOL yes=  [defaults valueForKey:@"isLoggedin"];
     
     if (yes)

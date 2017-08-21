@@ -34,9 +34,9 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-#define GOOGLE_API_KEY @"AIzaSyCmF29AfgOnRNaEApRsdy1Lm0sMVY4A96k"
-#define GMSMAP_KEY @"AIzaSyBKwV2w7uWSf3bpgZeRNbMTBKdRbqnmQew"	
-#define GMSPLACES_KEY @"AIzaSyBe-77R1y2Z4QnW5EJqVt-E3MwdVFrJIw4"
+#define GOOGLE_API_KEY @"AIzaSyAb-4OFZafc4PPf3gG_V9JILphPQdnBIAA"
+#define GMSMAP_KEY  @"AIzaSyAb-4OFZafc4PPf3gG_V9JILphPQdnBIAA"
+#define GMSPLACES_KEY  @"AIzaSyAb-4OFZafc4PPf3gG_V9JILphPQdnBIAA"
 #define Google_Client_ID @"710279630663-4lgj6e2c98imgiv4t2d6207l3296987e.apps.googleusercontent.com"
 
 #define Stripe_KEY @"pk_test_0G4SKYMm8dK6kgayCPwKWTXy"

@@ -152,10 +152,10 @@
     _dateOfBirthTxtFld.inputAccessoryView = datePickerToolbar;
     
     [CSS_Class APP_Yellowbutton:_registerBtn];
-    [CSS_Class APP_textfield_Infocus:_fullNameTxtFld PaddingIcon:@"mail"];
-    [CSS_Class APP_textfield_Infocus:_dateOfBirthTxtFld PaddingIcon:@"mail"];
-    [CSS_Class APP_textfield_Infocus:_emailAddressTxtFld PaddingIcon:@"mail"];
-    [CSS_Class APP_textfield_Infocus:_passwordTxtFld PaddingIcon:@"mail"];
+    [CSS_Class APP_textfield_Infocus:_fullNameTxtFld PaddingIcon:@"user"];
+    [CSS_Class APP_textfield_Infocus:_dateOfBirthTxtFld PaddingIcon:@"calendar"];
+    [CSS_Class APP_textfield_Infocus:_emailAddressTxtFld PaddingIcon:@"mail-1"];
+    [CSS_Class APP_textfield_Infocus:_passwordTxtFld PaddingIcon:@"lock"];
 }
 
 -(void)LabelTitle:(id)sender
@@ -321,7 +321,7 @@
             NSDictionary*params;
             if([strLoginType isEqualToString:@"manual"])
             {
-                params=@{@"email":_emailAddressTxtFld.text,@"password":_passwordTxtFld.text,@"username":_fullNameTxtFld.text,@"dob":_dateOfBirthTxtFld.text,@"gender":gender,@"device_token":appDelegate.strDeviceToken,@"login_by":strLoginType,@"device_type":@"ios",@"latitude":latitude,@"longitude":longitude};
+                params=@{@"email":_emailAddressTxtFld.text,@"password":_passwordTxtFld.text,@"name":_fullNameTxtFld.text,@"dob":_dateOfBirthTxtFld.text,@"gender":gender,@"device_token":appDelegate.strDeviceToken,@"login_by":strLoginType,@"device_type":@"ios",@"latitude":latitude,@"longitude":longitude};
             }
             
             UIImage *image = _profileImageView.image;

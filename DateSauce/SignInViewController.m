@@ -52,8 +52,8 @@
 - (void)setUpDesign {
     
     [CSS_Class APP_Orangebutton:_signInBtn];
-    [CSS_Class APP_textfield_Infocus:_emailAddressTxtFld PaddingIcon:@"mail"];
-    [CSS_Class APP_textfield_Infocus:_passwordTxtFld PaddingIcon:@"mail"];
+    [CSS_Class APP_textfield_Infocus:_emailAddressTxtFld PaddingIcon:@"mail-1"];
+    [CSS_Class APP_textfield_Infocus:_passwordTxtFld PaddingIcon:@"user"];
 }
 
 
