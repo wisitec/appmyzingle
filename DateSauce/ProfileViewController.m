@@ -175,10 +175,10 @@ if([appDelegate internetConnected])
             }
             else {
                 
-//            NSURL *picURL = [NSURL URLWithString:ImageURL];
-//            NSData *data = [NSData dataWithContentsOfURL:picURL];
-//            UIImage *image = [UIImage imageWithData:data];
-//            [imagesArray addObject:image];
+            NSURL *picURL = [NSURL URLWithString:ImageURL];
+            NSData *data = [NSData dataWithContentsOfURL:picURL];
+            UIImage *image = [UIImage imageWithData:data];
+            [imagesArray addObject:image];
             }
             
             NSArray *otherImages = [[response objectForKey:@"user"]objectForKey:@"images"];

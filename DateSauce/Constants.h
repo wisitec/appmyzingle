@@ -97,3 +97,6 @@ extern NSString *const MD_LIKE;
 extern NSString *const MD_GET_MESSAGES;
 extern NSString *const MD_GET_USER_MESSAGE;
 extern NSString *const MD_USER_UNMATCH;
+extern NSString *const MD_USER_AMOUNT;
+
+

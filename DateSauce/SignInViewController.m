@@ -190,6 +190,7 @@
                 [user setValue:response[@"school"] forKey:@"school"];
                 [user setValue:response[@"work"] forKey:@"work"];
                 [user setValue:response[@"age"] forKey:@"age"];
+                [user setValue:response[@"pro_user"] forKey:@"pro_user"];
                 [user setBool:true forKey:@"isLoggedin"];
                 [user synchronize];
                 

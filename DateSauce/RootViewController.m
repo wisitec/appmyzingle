@@ -50,7 +50,7 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.backgroundColor = [UIColor clearColor];
     
-    images = [[NSMutableArray alloc]initWithObjects:[UIImage imageNamed:@"people.png"],[UIImage imageNamed:@"people_1.png"], nil];
+    images = [[NSMutableArray alloc]initWithObjects:[UIImage imageNamed:@"welcome_screen_one"],[UIImage imageNamed:@"welcome_screen_two"], nil];
     
     CGFloat xValue = 0;
     for (UIImage *image in images) {

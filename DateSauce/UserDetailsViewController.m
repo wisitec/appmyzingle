@@ -11,6 +11,7 @@
 #import "EditProfileViewController.h"
 #import "ProfileViewController.h"
 #import "RootViewController.h"
+#import "TinderPlusPopUpViewController.h"
 #import "AppDelegate.h"
 #import "AFNHelper.h"
 #import <AFNetworking/AFNetworking.h>
@@ -28,6 +29,7 @@
 @end
 
 @implementation UserDetailsViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,9 +56,6 @@
     _getTinderPlusBtn.layer.cornerRadius = _getTinderPlusBtn.frame.size.height/2;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    
-}
 
 -(void)commonMethod{
     
@@ -90,7 +89,13 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 - (IBAction)getTinderPlusBtnAction:(id)sender {
-}
+    
+    TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+    
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
+ }
+
+
 - (IBAction)settingsBtnAction:(id)sender {
     
     SettingsViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
@@ -114,6 +119,10 @@
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
 //                NSLog(@"user profile...%@",response);
+                
+                NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                [user setValue:[[response objectForKey:@"user"]valueForKey:@"user_type"] forKey:@"pro_user"];
+                
                 _userNameLbl.text = [NSString stringWithFormat:@"%@, %@",[[response objectForKey:@"user"]valueForKey:@"name"],[[response objectForKey:@"user"]valueForKey:@"age"]];
                 _workLbl.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"work"]];
                 _schoolLbl.text = [NSString stringWithFormat:@"%@",[[response objectForKey:@"user"]valueForKey:@"school"]];
@@ -178,6 +187,7 @@
         [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"Please Check Your Internet Connection", nil) viewController:self okPop:NO];
     }
 }
+
 
 
 @end

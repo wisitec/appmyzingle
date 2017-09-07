@@ -94,6 +94,7 @@
 		03EA73881EDEC54500555780 /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EA73871EDEC54500555780 /* UserDetailsViewController.m */; };
 		03EA738F1EDED25F00555780 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EA738E1EDED25F00555780 /* SettingsViewController.m */; };
 		293BC25AE806F87B713FF6B6 /* Pods_DateSauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC02BDC3253B77FF377F10E /* Pods_DateSauce.framework */; };
+		9356589D1F6126B9008AA73A /* TinderPlusPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9356589C1F6126B9008AA73A /* TinderPlusPopUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +272,8 @@
 		03EA738E1EDED25F00555780 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		15E4BAADBBCE1242BDA81D2F /* Pods-DateSauce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DateSauce.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce.debug.xcconfig"; sourceTree = "<group>"; };
 		1A5421252EC720B8F74FC1DB /* Pods-DateSauce.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DateSauce.release.xcconfig"; path = "Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce.release.xcconfig"; sourceTree = "<group>"; };
+		9356589B1F6126B9008AA73A /* TinderPlusPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TinderPlusPopUpViewController.h; sourceTree = "<group>"; };
+		9356589C1F6126B9008AA73A /* TinderPlusPopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinderPlusPopUpViewController.m; sourceTree = "<group>"; };
 		9361BF6A1F4AE19A00310821 /* DateSauce.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DateSauce.entitlements; sourceTree = "<group>"; };
 		EBC02BDC3253B77FF377F10E /* Pods_DateSauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DateSauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -540,6 +543,7 @@
 				0355FB151EF23B360028F108 /* EditProfileVC */,
 				0355FB141EF23B220028F108 /* SettingsVC */,
 				0355FB161EF23B610028F108 /* WebViewVC */,
+				9356589A1F612694008AA73A /* TinderPlusPopUp */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -781,6 +785,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9356589A1F612694008AA73A /* TinderPlusPopUp */ = {
+			isa = PBXGroup;
+			children = (
+				9356589B1F6126B9008AA73A /* TinderPlusPopUpViewController.h */,
+				9356589C1F6126B9008AA73A /* TinderPlusPopUpViewController.m */,
+			);
+			name = TinderPlusPopUp;
+			sourceTree = "<group>";
+		};
 		E4AF70E56E288B428F3B6B31 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,13 +960,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DateSauce-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		228BC6B9AB4F611B41699621 /* [CP] Embed Pods Frameworks */ = {
@@ -962,9 +978,30 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/HCSStarRatingView/HCSStarRatingView.framework",
+				"${BUILT_PRODUCTS_DIR}/MXCardsSwipingView/MXCardsSwipingView.framework",
+				"${BUILT_PRODUCTS_DIR}/PulsingHalo/PulsingHalo.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HCSStarRatingView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXCardsSwipingView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PulsingHalo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stripe.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -977,9 +1014,13 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DateSauce/Pods-DateSauce-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1038,6 +1079,7 @@
 				0300B2D61EDD7DBF0018F38E /* LoadingViewClass.m in Sources */,
 				0355FB641EF274330028F108 /* ContentView.m in Sources */,
 				0300B26F1EDD78090018F38E /* main.m in Sources */,
+				9356589D1F6126B9008AA73A /* TinderPlusPopUpViewController.m in Sources */,
 				0300B2EB1EDD7F380018F38E /* EKKeyboardFrameListener.m in Sources */,
 				03D1F1A61EEFE7110085D67D /* DefaultShouldSwipeDeterminator.m in Sources */,
 				0300B2BF1EDD7C820018F38E /* AFNHelper.m in Sources */,
@@ -1205,7 +1247,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DateSauce/DateSauce.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZP3CU47U3H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DateSauce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1224,7 +1266,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DateSauce/DateSauce.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = ZP3CU47U3H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DateSauce/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

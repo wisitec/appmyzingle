@@ -45,6 +45,7 @@ NSString *const MD_LIKE =@"userApi/like";
 NSString *const MD_GET_MESSAGES =@"userApi/messages";
 NSString *const MD_GET_USER_MESSAGE =@"userApi/getUserMessage";
 NSString *const MD_USER_UNMATCH =@"userApi/unmatch";
+NSString *const MD_USER_AMOUNT =@"userApi/get_pro_amount";
 
 
 

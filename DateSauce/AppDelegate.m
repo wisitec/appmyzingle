@@ -12,6 +12,7 @@
 #import <SplunkMint/SplunkMint.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import "Constants.h"
+#import <PayPal-iOS-SDK/PayPalMobile.h>
 
 #define SYSTEM_VERSION_GRATERTHAN_OR_EQUALTO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -42,6 +43,10 @@
     NSString*devType=@"ios";
     [[NSUserDefaults standardUserDefaults]setObject:devType forKey:@"device_type"];
     
+    
+    [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"ECaFz5wYBuR2kHjDXmzQM5dIVkTYT91acDPH2v74h_J0VITI9d3IdS0BwDy6xAmV2cz6k2yiHjzMXNzH",
+                                                           PayPalEnvironmentSandbox : @"AVPSjQbR0VdaRv2h35o6gNAFdUOM0Oe-251pPER1eX_vArda5MPI-BVXCW7uAtuMMi2OuTYsyvryexJj"}];
+
     [GMSPlacesClient provideAPIKey:GMSMAP_KEY];
     
     [[Mint sharedInstance] disableNetworkMonitoring];

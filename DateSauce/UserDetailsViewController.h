@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PayPalMobile.h"
 
-@interface UserDetailsViewController : UIViewController
+@interface UserDetailsViewController : UIViewController<PayPalPaymentDelegate>
+
+@property (nonatomic, strong, readwrite) PayPalConfiguration *payPalConfiguration;
+
 @property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 - (IBAction)profileBtnAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *editProfileBtn;

@@ -19,12 +19,15 @@
 #import "Constants.h"
 #import "CSS_Class.h"
 #import "ProfileViewController.h"
+#import "TinderPlusPopUpViewController.h"
+
 @interface DateSauceViewController (){
     
     
     AppDelegate *appDelegate;
     NSInteger matchedUserId;
     NSTimer *timerMatchCheck;
+    NSString *pro_User, *likeAllowed;
     BOOL launched;
 }
 @property (assign, nonatomic) NSInteger count,startIndex,slideCount;
@@ -40,6 +43,9 @@
     
     appDelegate =(AppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    pro_User=[user valueForKey:@"pro_user"];
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     [CSS_Class APP_Orangebutton:_sendMsgBtn];
@@ -52,7 +58,7 @@
     _startIndex = 0;
     _slideCount = 0;
     
-    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, self.view.frame.size.height - 150)];
+    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectMake(10, 20, self.view.frame.size.width - 20, self.view.frame.size.height - 160)];
     self.swipeableView.frame = swipeableView.frame;
     self.swipeableView = swipeableView;
     [self.view addSubview:self.swipeableView];
@@ -87,6 +93,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
   
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    pro_User=[user valueForKey:@"pro_user"];
+    
+    
     if([[CommenMethods getUserDefaultsKey:@"unmatched"] isEqualToString: @"1"]){
         
         [CommenMethods setUserDefaultsObject:@"0" key:@"unmatched"];
@@ -158,7 +168,243 @@
         strLikeStatus=@"3";
     }
     
-  if([appDelegate internetConnected])
+    if([strLikeStatus  isEqualToString: @"3"]){
+      
+        if([pro_User isEqualToString:@"1"]){
+            
+                if([appDelegate internetConnected])
+                {
+                    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                    NSString *identi=[user valueForKey:@"id"];
+                    NSString *token=[user valueForKey:@"token"];
+                    
+                    NSDictionary * params=@{@"id":identi,@"token":token,@"suggestion_id":user_id,@"status":strLikeStatus};
+                    
+                    //        [btnNope setHidden:YES];
+                    //        [btnLike setHidden:YES];
+                    //        [btnSupeLike setHidden:YES];
+                    
+                    AFNHelper *afn=[[AFNHelper alloc]initWithRequestMethod:POST_METHOD];
+                    [afn getDataFromPath:MD_LIKE withParamData:params withBlock:^(id response, NSDictionary *Error,NSString *strCode) {
+                        
+                        if([[response valueForKey:@"success"]boolValue] == 1)
+                        {
+                            [btnNope setHidden:YES];
+                            [btnLike setHidden:YES];
+                            [btnSupeLike setHidden:YES];
+                            _slideCount++;
+                            
+                            if(_slideCount == _count){
+                                
+                                [self.swipeableView removeFromSuperview];
+                                
+                                [self.view setBackgroundColor:[UIColor whiteColor]];
+                                
+                                [_buttonView setHidden:YES];
+                                
+                                [self startAnimating];
+                                
+                                timerMatchCheck= [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                                  target:self
+                                                                                selector:@selector(getUsers)
+                                                                                userInfo:nil
+                                                                                 repeats:YES];
+                                
+                                UIImage *imgCL=[UIImage imageNamed:@"CloseDisa.png"];
+                                [_unlikeBtn setBackgroundImage:imgCL forState:UIControlStateNormal];
+                                
+                                UIImage *imgLV=[UIImage imageNamed:@"HeartDisa.png"];
+                                [_likeBtn setBackgroundImage:imgLV forState:UIControlStateNormal];
+                                
+                                UIImage *imgST=[UIImage imageNamed:@"StarDisa.png"];
+                                [_superLikeBtn setBackgroundImage:imgST forState:UIControlStateNormal];
+                                
+                                UIImage *imgRE=[UIImage imageNamed:@"RefreshDisa.png"];
+                                [_rewindBtn setBackgroundImage:imgRE forState:UIControlStateNormal];
+                                
+                            }
+                            
+                            if([[[response objectForKey:@"like"]valueForKey:@"match"]boolValue] == 1){
+                                
+                                NSLog(@"Matched");
+                                
+                                
+                                NSString *ImageURL = [userDict valueForKey:@"picture"];
+                                
+                                [CommenMethods setUserDefaultsObject:[Utilities removeNullFromString:[userDict valueForKey:@"name"]] key:@"matchedUserName"];
+                                [CommenMethods setUserDefaultsObject:ImageURL key:@"matchedUserImageUrl"];
+                                [CommenMethods setUserDefaultsObject:[userDict valueForKey:@"user_id"] key:@"matched_id"];
+                                
+                                _matchedNameLabel.text = [NSString stringWithFormat:@"%@ and %@ have liked each other",[CommenMethods getUserDefaultsKey:@"name"],[CommenMethods getUserDefaultsKey:@"matchedUserName"]];
+                                
+                                _matchedNameLabelSecond.text = [NSString stringWithFormat:@"%@ and %@ have liked each other",[CommenMethods getUserDefaultsKey:@"name"],[CommenMethods getUserDefaultsKey:@"matchedUserName"]];
+                                
+                                [UIView animateWithDuration:0.45 animations:^{
+                                    
+                                    if(IS_IPHONE_5){
+                                        [self.view addSubview:_matched_shortscreenView];
+                                        _matched_shortscreenView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+                                    }else {
+                                        [self.view addSubview:_matchedView];
+                                        _matchedView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+                                    }
+                                }];
+                                
+                                NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                                NSString *profilePic= [Utilities removeNullFromString:[user valueForKey:@"picture"]];
+                                if([profilePic  isEqualToString: @""]){
+                                    NSString *profilePic= [Utilities removeNullFromString:[user valueForKey:@"image"]];
+                                    if([profilePic  isEqualToString: @""]){
+                                        _userImageView.image = [UIImage imageNamed:@"PersonMsg"];
+                                        _userImageViewSecond.image = [UIImage imageNamed:@"PersonMsg"];
+                                    }
+                                    else {
+                                        NSURL *picURL = [NSURL URLWithString:profilePic];
+                                        NSData *data = [NSData dataWithContentsOfURL:picURL];
+                                        UIImage *image = [UIImage imageWithData:data];
+                                        [_userImageView setImage:image];
+                                        [_userImageViewSecond setImage:image];
+                                    }
+                                }
+                                else {
+                                    NSURL *picURL = [NSURL URLWithString:profilePic];
+                                    NSData *data = [NSData dataWithContentsOfURL:picURL];
+                                    UIImage *image = [UIImage imageWithData:data];
+                                    [_userImageView setImage:image];
+                                    [_userImageViewSecond setImage:image];
+                                }
+                                
+                                NSString *matchedprofilePic= [Utilities removeNullFromString:[user valueForKey:@"matchedUserImageUrl"]];
+                                if([matchedprofilePic  isEqualToString: @""]){
+                                    _matchedUserImageView.image = [UIImage imageNamed:@"PersonMsg"];
+                                    _matchedUserImageViewSecond.image = [UIImage imageNamed:@"PersonMsg"];
+                                }
+                                else {
+                                    NSURL *picURL = [NSURL URLWithString:matchedprofilePic];
+                                    NSData *data = [NSData dataWithContentsOfURL:picURL];
+                                    UIImage *image = [UIImage imageWithData:data];
+                                    [_matchedUserImageView setImage:image];
+                                    [_matchedUserImageViewSecond setImage:image];
+                                }
+                                
+                                
+                            }
+                            
+                        }
+                        else
+                        {
+                            NSString *strErrCode=[NSString stringWithFormat:@"%@",[response valueForKey:@"error_code"]];
+                            
+                            if ([strErrCode isEqualToString:@"104"])
+                            {
+                                NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                                [user removeObjectForKey:@"isLoggedin"];
+                                
+                                RootViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
+                                [self.navigationController pushViewController:controller animated:YES];
+                                
+                            }
+                            
+                            if ([strErrCode isEqualToString:@"407"]){
+                                
+                                
+                                UIAlertController * alert = [UIAlertController
+                                                             alertControllerWithTitle:@""
+                                                             message:[NSString stringWithFormat:@"%@",[response valueForKey:@"error"]]
+                                                             preferredStyle:UIAlertControllerStyleAlert];
+                                
+                                UIAlertAction* yesButton = [UIAlertAction
+                                                            actionWithTitle:@"Continue To Pay"
+                                                            style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction * action) {
+                                                                
+                                                                
+                                                                [btnNope setHidden:YES];
+                                                                [btnLike setHidden:YES];
+                                                                [btnSupeLike setHidden:YES];
+                                                                
+                                                                [self.swipeableView rewind];
+                                                                
+                                                                TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+                                                                
+                                                                [self.navigationController presentViewController:controller animated:YES completion:nil];
+                                                                
+                                                            }];
+                                
+                                UIAlertAction* noButton = [UIAlertAction
+                                                           actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               
+                                                               
+                                                               [btnNope setHidden:YES];
+                                                               [btnLike setHidden:YES];
+                                                               [btnSupeLike setHidden:YES];
+                                                               
+                                                               [self.swipeableView rewind];
+                                                               
+                                                               [self dismissViewControllerAnimated:YES completion:nil];
+                                                               
+                                                           }];
+                                
+                                
+                                [alert addAction:yesButton];
+                                [alert addAction:noButton];
+                                
+                                [self presentViewController:alert animated:YES completion:nil];
+                            }
+                            
+                            if ([strCode intValue]==1)
+                            {
+                                [btnNope setHidden:YES];
+                                [btnLike setHidden:YES];
+                                [btnSupeLike setHidden:YES];
+                                [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"ERRORMSG", nil) viewController:self okPop:NO];
+                            }
+                            else
+                            {
+                                if ([Error objectForKey:@"email"]) {
+                                    [btnNope setHidden:YES];
+                                    [btnLike setHidden:YES];
+                                    [btnSupeLike setHidden:YES];
+                                    [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"email"] objectAtIndex:0]  viewController:self okPop:NO];
+                                }
+                                else if ([Error objectForKey:@"password"]) {
+                                    [btnNope setHidden:YES];
+                                    [btnLike setHidden:YES];
+                                    [btnSupeLike setHidden:YES];
+                                    [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"password"] objectAtIndex:0]  viewController:self okPop:NO];
+                                }
+                            }
+                            
+                        }
+                    }];
+                }
+                else
+                {
+                    [btnNope setHidden:YES];
+                    [btnLike setHidden:YES];
+                    [btnSupeLike setHidden:YES];
+                    [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"Please Check Your Internet Connection", nil) viewController:self okPop:NO];
+                }
+        }
+        else {
+            
+            
+            [btnNope setHidden:YES];
+            [btnLike setHidden:YES];
+            [btnSupeLike setHidden:YES];
+            
+            [self.swipeableView rewind];
+
+            TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+            
+            [self.navigationController presentViewController:controller animated:YES completion:nil];
+        }
+    }
+    
+    else {
+    if([appDelegate internetConnected])
     {
         NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
         NSString *identi=[user valueForKey:@"id"];
@@ -291,6 +537,56 @@
                     
                 }
                 
+                if ([strErrCode isEqualToString:@"407"]){
+                    
+                    
+                    UIAlertController * alert = [UIAlertController
+                                                 alertControllerWithTitle:@""
+                                                 message:[NSString stringWithFormat:@"%@",[response valueForKey:@"error"]]
+                                                 preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction* yesButton = [UIAlertAction
+                                                actionWithTitle:@"Continue To Pay"
+                                                style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    
+                                                 
+                                                    [btnNope setHidden:YES];
+                                                    [btnLike setHidden:YES];
+                                                    [btnSupeLike setHidden:YES];
+                                                    
+                                                    [self.swipeableView rewind];
+                                                    
+                                                    TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+                                                    
+                                                    [self.navigationController presentViewController:controller animated:YES completion:nil];
+                                                
+                                                }];
+                    
+                    UIAlertAction* noButton = [UIAlertAction
+                                                actionWithTitle:@"Cancel"
+                                                style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    
+                                                    
+                                                    [btnNope setHidden:YES];
+                                                    [btnLike setHidden:YES];
+                                                    [btnSupeLike setHidden:YES];
+                                                    
+                                                    [self.swipeableView rewind];
+                                                    
+                                                    [self dismissViewControllerAnimated:YES completion:nil];
+                                                    
+                                                }];
+
+                    
+                    [alert addAction:yesButton];
+                    [alert addAction:noButton];
+                    
+                    [self presentViewController:alert animated:YES completion:nil];
+                    
+                }
+                
                 if ([strCode intValue]==1)
                 {
                     [btnNope setHidden:YES];
@@ -324,7 +620,7 @@
         [btnSupeLike setHidden:YES];
         [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"Please Check Your Internet Connection", nil) viewController:self okPop:NO];
     }
-    
+  }
 }
 
 - (void)swipeableView:(ZLSwipeableView *)swipeableView didCancelSwipe:(UIView *)view {
@@ -473,7 +769,7 @@
         
         NSDictionary *userDict = [usersFound objectAtIndex:_startIndex];
         NSString *ImageURL = [userDict valueForKey:@"picture"];
-        NSString *name = [NSString stringWithFormat:@"%@,%@",[userDict valueForKey:@"name"],[userDict valueForKey:@"age"]];
+        NSString *name = [NSString stringWithFormat:@"%@,%@",[Utilities removeNullFromString:[userDict valueForKey:@"name"]],[Utilities removeNullFromString:[userDict valueForKey:@"age"]]];
         NSString *company = [Utilities removeNullFromString:[userDict valueForKey:@"work"]];
         NSString *distance = [Utilities removeNullFromString:[NSString stringWithFormat:@"%@km away",[userDict valueForKey:@"distance"]]];
         
@@ -645,6 +941,7 @@
             if([[response valueForKey:@"success"]boolValue] == 1)
             {
                 self.count = [[response objectForKey:@"user_count"]integerValue];
+                
                 if(self.count == 0)
                 {
                     //[self startAnimating];
@@ -668,7 +965,7 @@
                     _slideCount = 0;
                     
                     
-                    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width - 20, self.view.frame.size.height - 150)];
+                    ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectMake(10, 20, self.view.frame.size.width - 20, self.view.frame.size.height - 160)];
                     self.swipeableView.frame = swipeableView.frame;
                     self.swipeableView = swipeableView;
                     [self.view addSubview:self.swipeableView];
@@ -787,87 +1084,100 @@
 }
 
 - (IBAction)rewindBtnAction:(id)sender {
-    [self.swipeableView rewind];
     
-    if(_slideCount<=0){
+    if([pro_User isEqualToString:@"1"]){
         
-    }
-    else {
         
-        if([appDelegate internetConnected])
-        {
+        [self.swipeableView rewind];
+        
+        if(_slideCount<=0){
             
-            NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
-            NSString *identi=[user valueForKey:@"id"];
-            NSString *token=[user valueForKey:@"token"];
+        }
+        else {
             
-            NSString* latitude;
-            NSString* longitude;
-            
-            
-            NSDictionary *userDict = [usersFound objectAtIndex:_slideCount-1];
-            NSString *user_id = [userDict valueForKey:@"user_id"];
-            
-            latitude = [Utilities removeNullFromString:[NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]]];
-            
-            if([latitude  isEqual: @""]){
-                latitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.latitude];
-                longitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.longitude];
-            }
-            else{
-                latitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]];
-                longitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLong"]];
-            }
-            
-            
-            NSDictionary * params=@{@"id":identi,@"token":token,@"latitude":latitude,@"longitude":longitude,@"status":@"reload",@"last_id":user_id};
-            
-            AFNHelper *afn=[[AFNHelper alloc]initWithRequestMethod:POST_METHOD];
-            [afn getDataFromPath:MD_SEARCH withParamData:params withBlock:^(id response, NSDictionary *Error,NSString *strCode) {
+            if([appDelegate internetConnected])
+            {
                 
-                [self stopAnimating];
-                if([[response valueForKey:@"success"]boolValue] == 1)
-                {
-                    _slideCount--;
-                    
+                NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                NSString *identi=[user valueForKey:@"id"];
+                NSString *token=[user valueForKey:@"token"];
+                
+                NSString* latitude;
+                NSString* longitude;
+                
+                
+                NSDictionary *userDict = [usersFound objectAtIndex:_slideCount-1];
+                NSString *user_id = [userDict valueForKey:@"user_id"];
+                
+                latitude = [Utilities removeNullFromString:[NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]]];
+                
+                if([latitude  isEqual: @""]){
+                    latitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.latitude];
+                    longitude = [NSString stringWithFormat:@"%f",myLocation.coordinate.longitude];
                 }
-                else
-                {
-                    NSString *strErrCode=[NSString stringWithFormat:@"%@",[response valueForKey:@"error_code"]];
+                else{
+                    latitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLat"]];
+                    longitude = [NSString stringWithFormat:@"%@",[user valueForKey:@"selectedLong"]];
+                }
+                
+                
+                NSDictionary * params=@{@"id":identi,@"token":token,@"latitude":latitude,@"longitude":longitude,@"status":@"reload",@"last_id":user_id};
+                
+                AFNHelper *afn=[[AFNHelper alloc]initWithRequestMethod:POST_METHOD];
+                [afn getDataFromPath:MD_SEARCH withParamData:params withBlock:^(id response, NSDictionary *Error,NSString *strCode) {
                     
-                    if ([strErrCode isEqualToString:@"104"])
+                    [self stopAnimating];
+                    if([[response valueForKey:@"success"]boolValue] == 1)
                     {
+                        _slideCount--;
                         
-                        NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
-                        [user removeObjectForKey:@"isLoggedin"];
-                        
-                        RootViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
-                        [self.navigationController pushViewController:controller animated:YES];
-                        
-                    }
-
-                    if ([strCode intValue]==1)
-                    {
-                        [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"ERRORMSG", nil) viewController:self okPop:NO];
                     }
                     else
                     {
-                        if ([Error objectForKey:@"email"]) {
-                            [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"email"] objectAtIndex:0]  viewController:self okPop:NO];
+                        NSString *strErrCode=[NSString stringWithFormat:@"%@",[response valueForKey:@"error_code"]];
+                        
+                        if ([strErrCode isEqualToString:@"104"])
+                        {
+                            
+                            NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+                            [user removeObjectForKey:@"isLoggedin"];
+                            
+                            RootViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
+                            [self.navigationController pushViewController:controller animated:YES];
+                            
                         }
-                        else if ([Error objectForKey:@"password"]) {
-                            [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"password"] objectAtIndex:0]  viewController:self okPop:NO];
+                        
+                        if ([strCode intValue]==1)
+                        {
+                            [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"ERRORMSG", nil) viewController:self okPop:NO];
                         }
+                        else
+                        {
+                            if ([Error objectForKey:@"email"]) {
+                                [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"email"] objectAtIndex:0]  viewController:self okPop:NO];
+                            }
+                            else if ([Error objectForKey:@"password"]) {
+                                [CommenMethods alertviewController_title:@"" MessageAlert:[[Error objectForKey:@"password"] objectAtIndex:0]  viewController:self okPop:NO];
+                            }
+                        }
+                        
                     }
-                    
-                }
-            }];
-        }
-        else
-        {
-            [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"Please Check Your Internet Connection", nil) viewController:self okPop:NO];
+                }];
+            }
+            else
+            {
+                [CommenMethods alertviewController_title:@"" MessageAlert:NSLocalizedString(@"Please Check Your Internet Connection", nil) viewController:self okPop:NO];
+            }
         }
     }
+        
+    else {
+
+        TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+        
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+    }
+
 }
 
 - (IBAction)likeBtnAction:(id)sender {

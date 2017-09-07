@@ -17,6 +17,7 @@ pod 'Socket.IO-Client-Swift'
 pod 'SplunkMint'
 pod 'MXCardsSwipingView'
 pod 'PulsingHalo'
+pod 'PayPal-iOS-SDK'
 pod 'pop'
 
 end

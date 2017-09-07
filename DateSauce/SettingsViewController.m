@@ -9,6 +9,7 @@
 #import "SettingsViewController.h"
 #import "SettingsTableViewCell.h"
 #import "WebViewViewController.h"
+#import "TinderPlusPopUpViewController.h"
 #import "ViewController.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
@@ -24,7 +25,7 @@
     BOOL locationSelected;
     NSInteger selectedIndex;
     AppDelegate *appDelegate;
-
+    NSString *pro_User;
 }
 @end
 
@@ -37,6 +38,9 @@
 //    userApi/getPreferences?id=97&token=2y10USfXOAspRgaZl6mdV5YLfuTFL9jZexxZWMUB4M92TnnjWjwuS9YG
     
     appDelegate =(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    pro_User=[user valueForKey:@"pro_user"];
     
     [self onLocationUpdateStart];
     
@@ -76,6 +80,14 @@
     locationSelected = YES;
     
 //    locationsArray = [[NSMutableArray alloc]initWithObjects:@"Current Location", nil];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    pro_User=[user valueForKey:@"pro_user"];
+    
 }
 
 
@@ -262,9 +274,19 @@
 }
 - (IBAction)addLocationBtnAction:(id)sender {
     
+    if([pro_User isEqualToString:@"1"]){
+        
     GMSAutocompleteViewController *acController = [[GMSAutocompleteViewController alloc] init];
     acController.delegate = self;
     [self presentViewController:acController animated:YES completion:nil];
+    }
+    
+    else {
+        
+        TinderPlusPopUpViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TinderPlusPopUpViewController"];
+        
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 - (void)viewController:(GMSAutocompleteViewController *)viewController
