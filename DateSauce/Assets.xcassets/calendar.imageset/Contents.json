@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "calendar.png",
+      "filename" : "events-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "events-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "events.png",
       "scale" : "3x"
     }
   ],
