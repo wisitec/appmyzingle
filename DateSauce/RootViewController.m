@@ -29,6 +29,7 @@
 
 - (void)setUpDesign {
     
+    ////////////////  dhyan ////////////////
     
     NSAttributedString *titleString = [[NSAttributedString alloc] initWithString:@"Terms of service" attributes:@{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid)}];
     _termsOfServiceBtn.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Book" size:11];
